@@ -1,13 +1,15 @@
-package org.soft2;
+package org.soft2.server;
 
 import io.javalin.Javalin;
+import org.soft2.exceptions.APIException;
+import org.soft2.exceptions.ExceptionHandler;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class JavalinBuilder {
 
     public static void startServer(int port) {
-        Javalin server = Javalin.create(config -> {
+        Javalin.create(config -> {
             config.router.apiBuilder(() -> {
                 path("/api", () -> {
                     path("/TODO_INSERT_OUR_OWN_PATHS_AND_ROUTES", () -> {
@@ -20,6 +22,9 @@ public class JavalinBuilder {
                     });
                 });
             });
-        }).start(port);
+            //Insert other configuration here if needed.
+        })
+                .exception(APIException.class, (ExceptionHandler::apiExceptionHandler))
+                .start(port);
     }
 }

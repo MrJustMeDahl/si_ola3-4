@@ -1,4 +1,4 @@
-package org.soft2;
+package org.soft2.server;
 
 public class Main {
     public static void main(String[] args) {
