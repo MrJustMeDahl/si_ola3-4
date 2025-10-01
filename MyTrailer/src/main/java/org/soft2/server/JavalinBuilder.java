@@ -1,6 +1,7 @@
 package org.soft2.server;
 
 import io.javalin.Javalin;
+import org.soft2.MessageHandler;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
 
@@ -19,6 +20,9 @@ public class JavalinBuilder {
                     });
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
+                    });
+                    path("sendTestMessage", () -> {
+                        post(MessageHandler::sendTestMessage);
                     });
                 });
             });
