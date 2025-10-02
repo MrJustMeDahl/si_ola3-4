@@ -1,9 +1,11 @@
 package org.soft2.server;
 
-import org.soft2.MessageHandler;
 import org.soft2.dao.OrderDaoMock;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
+import org.soft2.handlers.LocationController;
+import org.soft2.handlers.MessageHandler;
+import org.soft2.handlers.ReturnHandler;
 import org.soft2.orderhandler.OrderHandler;
 
 import io.javalin.Javalin;
@@ -20,10 +22,11 @@ public class JavalinBuilder {
         Javalin.create(config -> {
             config.router.apiBuilder(() -> {
                 path("/api", () -> {
-                    path("/TODO_INSERT_OUR_OWN_PATHS_AND_ROUTES", () -> {
-                        get((context) -> {
-                            //Our handlers go here. This is just an example.
-                        });
+                    path("/locations", () -> {
+                        get(LocationController::getLocations);
+                    });
+                    path("/locations/{locationId}", () -> {
+                        get(LocationController::getTrailersByLocation);
                     });
                     get("/", (ctx) -> ctx.status(418)); // Visit me in the browser ;)
                     post("/createorder", orderHandler::handleOrderCreation);
@@ -31,6 +34,13 @@ public class JavalinBuilder {
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
                     });
+                    path("/createBill", () -> {
+                        post(MessageHandler::createBill);
+                    });
+                    path("/returnTrailer", ()->{
+                        post(ReturnHandler::returnTrailer);
+                    });
+
                     path("sendTestMessage", () -> {
                         post(MessageHandler::sendTestMessage);
                     });
