@@ -1,5 +1,6 @@
 package org.soft2.mockDAO;
 
+import org.soft2.DTO.LocationDTO;
 import org.soft2.entities.Location;
 import org.soft2.entities.Trailer;
 
@@ -38,10 +39,36 @@ public class LocationDAO {
         loc3.addTrailer(t7);
         loc3.addTrailer(t8);
         loc3.addTrailer(t9);
+
+        // Mark some trailers as unavailable for testing purposes
+        t2.setAvailable(false);
+        t5.setAvailable(false);
+        t8.setAvailable(false);
     }
 
-    public static Set<Location> getLocations() {
-        return locations;
+    public static Set<LocationDTO> getLocations() {
+        /*
+        Returns the set of all locations. Ideally without trailers, as this is just for selection purposes.
+         */
+        Set<LocationDTO> locationResult = new HashSet<>();
+        for (Location loc : locations) {
+            locationResult.add(new LocationDTO(loc));
+        }
+        return locationResult;
+    }
+
+    public static LocationDTO getLocationById(int id) {
+        /*
+        Returns a location by its ID, this time with all trailers.
+        Should include availability status of trailers. Meaning a query has to be made to orders to check if a trailer is currently rented out.
+         */
+        for (Location loc : locations) {
+            if (loc.getId() == id) {
+                LocationDTO dto = new LocationDTO(loc);
+                return dto;
+            }
+        }
+        return null;
     }
 
 }

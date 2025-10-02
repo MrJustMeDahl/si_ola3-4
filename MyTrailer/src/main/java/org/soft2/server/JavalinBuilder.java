@@ -17,6 +17,9 @@ public class JavalinBuilder {
                     path("/locations", () -> {
                         get(LocationController::getLocations);
                     });
+                    path("/locations/{locationId}", () -> {
+                        get(LocationController::getTrailersByLocation);
+                    });
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
                     });

@@ -24,4 +24,11 @@ public class Location {
         return this.trailers;
     }
 
+    public int getId() {return id;}
+
+    public Set<Trailer> getTrailers() {return trailers;}
+
+    public String getName() {return name;}
+
+    public String getAddress() {return address;}
 }
