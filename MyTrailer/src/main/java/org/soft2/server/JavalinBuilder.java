@@ -4,6 +4,7 @@ import io.javalin.Javalin;
 import org.soft2.MessageHandler;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
+import org.soft2.handlers.LocationController;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -13,10 +14,8 @@ public class JavalinBuilder {
         Javalin.create(config -> {
             config.router.apiBuilder(() -> {
                 path("/api", () -> {
-                    path("/TODO_INSERT_OUR_OWN_PATHS_AND_ROUTES", () -> {
-                        get((context) -> {
-                            //Our handlers go here. This is just an example.
-                        });
+                    path("/locations", () -> {
+                        get(LocationController::getLocations);
                     });
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
