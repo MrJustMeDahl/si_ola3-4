@@ -1,12 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.soft2.handlers;
 
+import org.soft2.DTO.BillDTO;
+import org.soft2.DTO.OrderDTO;
 import org.soft2.DTO.OrderRequestDTO;
 import org.soft2.exceptions.APIException;
+import org.soft2.messaging.Producer;
 import org.soft2.mockDAO.OrderDaoMock;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import io.javalin.http.Context;
 import io.javalin.validation.ValidationException;
@@ -17,10 +20,13 @@ import io.javalin.validation.ValidationException;
  */
 public class OrderHandler {
 
-    private OrderDaoMock dao;
+    private final OrderDaoMock dao;
+    private final ObjectMapper mapper;
 
     public OrderHandler(OrderDaoMock dao) {
         this.dao = dao;
+        this.mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
     }
 
     public void handleOrderCreation(Context ctx) throws APIException {
@@ -31,12 +37,21 @@ public class OrderHandler {
             throw new APIException(410, "Not available!");
         }
 
-        if (dao.createOrder(orderRequest)) {
-            // TODO: Publish bill information to rabbitmq
+        OrderDTO order = dao.createOrder(orderRequest);
 
-
+        if (order != null) {
+            BillDTO bill = BillDTO.fromOrder(order);
+            try {
+                String message = mapper.writeValueAsString(bill);
+                Producer.publishMessage("rental.order.create", message);
+                ctx.status(201);
+            } catch (JsonProcessingException e) {
+                throw new APIException(500, "Failed Serializing Bill: " + bill.toString() + ": " + e.getMessage());
+            }
+        } else {
+            throw new APIException(500, "Failed to create order from request: " + orderRequest.toString());
         }
-        ctx.status(201);
+
     }
 
     private OrderRequestDTO validateOrderRequest(Context ctx) throws ValidationException {

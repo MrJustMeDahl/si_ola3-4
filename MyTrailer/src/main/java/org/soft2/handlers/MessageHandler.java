@@ -1,11 +1,16 @@
 package org.soft2.handlers;
 
-import io.javalin.http.Context;
 import org.soft2.DTO.OrderDTO;
 import org.soft2.exceptions.APIException;
 import org.soft2.messaging.Producer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.javalin.http.Context;
+
 public class MessageHandler {
+
+    private static ObjectMapper mapper = new ObjectMapper();
 
     public static void sendTestMessage(Context context) throws APIException {
         String jsonMessage = context.body();
@@ -29,5 +34,4 @@ public class MessageHandler {
             }
         }
     }
-
 }
