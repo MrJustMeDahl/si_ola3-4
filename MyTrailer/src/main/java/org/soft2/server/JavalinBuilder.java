@@ -1,13 +1,20 @@
 package org.soft2.server;
 
-import io.javalin.Javalin;
 import org.soft2.MessageHandler;
+import org.soft2.dao.OrderDaoMock;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
+import org.soft2.orderhandler.OrderHandler;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
+import io.javalin.Javalin;
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
+import static io.javalin.apibuilder.ApiBuilder.post;
+import io.javalin.validation.ValidationException;
 
 public class JavalinBuilder {
+
+    private static final OrderHandler orderHandler = new OrderHandler(new OrderDaoMock());
 
     public static void startServer(int port) {
         Javalin.create(config -> {
@@ -18,17 +25,21 @@ public class JavalinBuilder {
                             //Our handlers go here. This is just an example.
                         });
                     });
+                    post("/createorder", orderHandler::handleOrderCreation);
+
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
                     });
                     path("sendTestMessage", () -> {
                         post(MessageHandler::sendTestMessage);
                     });
+                    
                 });
             });
             //Insert other configuration here if needed.
         })
                 .exception(APIException.class, (ExceptionHandler::apiExceptionHandler))
+                .exception(ValidationException.class, (ExceptionHandler::validationExceptionHandler))
                 .start(port);
     }
 }
