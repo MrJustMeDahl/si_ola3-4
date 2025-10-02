@@ -1,0 +1,21 @@
+POST localhost:7000/api/createBill
+Content-Type: application/json
+
+{
+  "orderId": 12345,
+  "trailerId": "TR2",
+  "startTime": "2024-06-01T10:00:00Z",
+  "userId": "user2",
+  "insurance": true
+}
+
+###
+
+POST localhost:7000/api/returnTrailer
+Content-Type: application/json
+
+{
+  "orderId": "12345",
+  "lateReturn": true
+}
+

@@ -14,5 +14,19 @@ public class MessageHandler {
             context.status(200);
         }
     }
+    public static void createBill(Context context) throws APIException {
+        String jsonMessage = context.body();
+        OrderDTO orderDTO = context.bodyAsClass(OrderDTO.class);
+        if(orderDTO == null) {
+            throw new APIException(400, "Invalid order data.");
+        }
+        else {
+            boolean result = Producer.publishMessage("rental.order.create", jsonMessage);
+            if (result) {
+                context.json("Your Bill creation request was sent successfully.");
+                context.status(200);
+            }
+        }
+    }
 
 }

@@ -4,6 +4,7 @@ import io.javalin.Javalin;
 import org.soft2.MessageHandler;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
+import org.soft2.returns.ReturnHandler;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -21,6 +22,13 @@ public class JavalinBuilder {
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
                     });
+                    path("/createBill", () -> {
+                        post(MessageHandler::createBill);
+                    });
+                    path("/returnTrailer", ()->{
+                        post(ReturnHandler::returnTrailer);
+                    });
+
                     path("sendTestMessage", () -> {
                         post(MessageHandler::sendTestMessage);
                     });
