@@ -15,7 +15,7 @@ public class Consumer {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+        channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
         String queueName = channel.queueDeclare().getQueue();
 
         for (String bindingKey : bindingKeys) {

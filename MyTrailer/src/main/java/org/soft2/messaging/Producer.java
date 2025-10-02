@@ -14,7 +14,7 @@ public class Producer {
         factory.setHost("localhost");
         try (Connection connection = factory.newConnection();
         Channel channel = connection.createChannel()) {
-            channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+            channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
             channel.confirmSelect();
 
             channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes("UTF-8"));
