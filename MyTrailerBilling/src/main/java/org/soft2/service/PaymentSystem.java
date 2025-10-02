@@ -1,4 +1,4 @@
-package org.soft2;
+package org.soft2.service;
 
 import org.soft2.DTO.BillDTO;
 
@@ -25,7 +25,7 @@ public class PaymentSystem {
     }
     public boolean processLateReturnCharge(BillDTO bill) {
         if (bill.isLateReturnCharge()) {
-            System.out.println("CONSUMER: Late return charge has been sent to the payment system for order: " + bill.getOrderId() + ", amount: 20");
+            System.out.println("CONSUMER: Late return charge has been sent to the payment system for order: " + bill.getOrderId() + ", amount: 50");
         }
         return true;
     }

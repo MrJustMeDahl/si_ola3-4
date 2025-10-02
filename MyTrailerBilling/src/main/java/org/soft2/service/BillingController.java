@@ -1,6 +1,7 @@
-package org.soft2;
+package org.soft2.service;
 import org.soft2.DTO.BillDTO;
 import org.soft2.DTO.OrderDTO;
+import org.soft2.mockDAO.BillDAO;
 
 public class BillingController {
 

@@ -1,4 +1,4 @@
-package org.soft2;
+package org.soft2.mockDAO;
 import org.soft2.DTO.BillDTO;
 
 import java.util.HashMap;

@@ -4,7 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
-import org.soft2.BillingController;
+import org.soft2.service.BillingController;
 import org.soft2.DTO.OrderDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,4 +1,4 @@
-package org.soft2;
+package org.soft2.DTO;
 
 import java.sql.Timestamp;
 

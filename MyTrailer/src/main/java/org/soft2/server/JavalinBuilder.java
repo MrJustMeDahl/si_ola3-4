@@ -1,11 +1,11 @@
 package org.soft2.server;
 
 import io.javalin.Javalin;
-import org.soft2.MessageHandler;
+import org.soft2.handlers.MessageHandler;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
 import org.soft2.handlers.LocationController;
-import org.soft2.returns.ReturnHandler;
+import org.soft2.handlers.ReturnHandler;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 

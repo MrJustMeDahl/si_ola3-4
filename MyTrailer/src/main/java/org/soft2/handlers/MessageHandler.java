@@ -1,6 +1,7 @@
-package org.soft2;
+package org.soft2.handlers;
 
 import io.javalin.http.Context;
+import org.soft2.DTO.OrderDTO;
 import org.soft2.exceptions.APIException;
 import org.soft2.messaging.Producer;
 
