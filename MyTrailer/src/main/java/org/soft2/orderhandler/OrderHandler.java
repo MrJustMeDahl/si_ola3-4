@@ -34,10 +34,8 @@ public class OrderHandler {
         if (dao.createOrder(orderRequest)) {
             // TODO: Publish bill information to rabbitmq
 
-            
+
         }
-
-
         ctx.status(201);
     }
 

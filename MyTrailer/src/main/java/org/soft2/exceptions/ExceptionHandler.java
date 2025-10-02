@@ -11,7 +11,7 @@ public class ExceptionHandler {
     }
 
     public static void validationExceptionHandler(ValidationException e, Context context) {
-            context.json(e.getErrors()).status(400);
+            context.json(e.getErrors()).status(400); // Aggregate messages to APIException instead?
     }
 
     private record ErrorMessage(int statusCode, String message, String timestamp) {
