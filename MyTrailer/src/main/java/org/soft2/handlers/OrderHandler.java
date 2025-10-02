@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.soft2.orderhandler;
+package org.soft2.handlers;
 
-import org.soft2.dao.OrderDaoMock;
-import org.soft2.dto.OrderRequestDTO;
+import org.soft2.DTO.OrderRequestDTO;
 import org.soft2.exceptions.APIException;
+import org.soft2.mockDAO.OrderDaoMock;
 
 import io.javalin.http.Context;
 import io.javalin.validation.ValidationException;

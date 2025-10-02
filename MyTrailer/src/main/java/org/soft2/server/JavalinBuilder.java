@@ -1,12 +1,12 @@
 package org.soft2.server;
 
-import org.soft2.dao.OrderDaoMock;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
 import org.soft2.handlers.LocationController;
 import org.soft2.handlers.MessageHandler;
+import org.soft2.handlers.OrderHandler;
 import org.soft2.handlers.ReturnHandler;
-import org.soft2.orderhandler.OrderHandler;
+import org.soft2.mockDAO.OrderDaoMock;
 
 import io.javalin.Javalin;
 import static io.javalin.apibuilder.ApiBuilder.get;
@@ -28,6 +28,7 @@ public class JavalinBuilder {
                     path("/locations/{locationId}", () -> {
                         get(LocationController::getTrailersByLocation);
                     });
+
                     get("/", (ctx) -> ctx.status(418)); // Visit me in the browser ;)
                     post("/createorder", orderHandler::handleOrderCreation);
 

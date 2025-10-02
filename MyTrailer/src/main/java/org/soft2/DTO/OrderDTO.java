@@ -1,60 +1,29 @@
+
 package org.soft2.DTO;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+/**
+ *
+ * @author kotteletfisk
+ */
 public class OrderDTO {
-    private String orderId;
-    private String trailerId;
-    private Timestamp startTime;
-    private String userId;
-    private boolean insurance;
 
+    public int orderId;
+    public int trailerId;
+    public String userId;
+    public boolean insurance;
+    public LocalDateTime startTime;
+    public LocalDateTime endTime;
 
-    public OrderDTO() {
-    }
-    public OrderDTO(String orderId, boolean insurance, Timestamp startTime) {
+    public OrderDTO(){}
+
+    public OrderDTO(int orderId, int trailerId, String userId, boolean insurance, LocalDateTime startTime, LocalDateTime endTime) {
         this.orderId = orderId;
-        this.insurance = insurance;
-        this.startTime = startTime;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getTrailerId() {
-        return trailerId;
-    }
-
-    public void setTrailerId(String trailerId) {
         this.trailerId = trailerId;
-    }
-
-    public Timestamp getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public boolean isInsurance() {
-        return insurance;
-    }
-
-    public void setInsurance(boolean insurance) {
         this.insurance = insurance;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 }

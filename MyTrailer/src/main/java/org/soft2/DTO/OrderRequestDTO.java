@@ -1,5 +1,5 @@
 
-package org.soft2.dto;
+package org.soft2.DTO;
 
 import java.time.LocalDateTime;
 
@@ -7,19 +7,17 @@ import java.time.LocalDateTime;
  *
  * @author kotteletfisk
  */
-public class OrderDTO {
+public class OrderRequestDTO {
 
-    public int orderId;
     public int trailerId;
     public String userId;
     public boolean insurance;
     public LocalDateTime startTime;
     public LocalDateTime endTime;
 
-    public OrderDTO(){}
+    public OrderRequestDTO() {}
 
-    public OrderDTO(int orderId, int trailerId, String userId, boolean insurance, LocalDateTime startTime, LocalDateTime endTime) {
-        this.orderId = orderId;
+    public OrderRequestDTO(int trailerId, String userId, boolean insurance, LocalDateTime startTime, LocalDateTime endTime) {
         this.trailerId = trailerId;
         this.userId = userId;
         this.insurance = insurance;

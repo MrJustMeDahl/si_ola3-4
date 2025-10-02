@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.soft2.dao;
+package org.soft2.mockDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.soft2.dto.OrderDTO;
-import org.soft2.dto.OrderRequestDTO;
+import org.soft2.DTO.OrderDTO;
+import org.soft2.DTO.OrderRequestDTO;
 
 /**
  *
