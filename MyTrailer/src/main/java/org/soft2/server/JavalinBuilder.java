@@ -25,6 +25,7 @@ public class JavalinBuilder {
                             //Our handlers go here. This is just an example.
                         });
                     });
+                    get("/", (ctx) -> ctx.status(418)); // Visit me in the browser ;)
                     post("/createorder", orderHandler::handleOrderCreation);
 
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {

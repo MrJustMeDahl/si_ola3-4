@@ -33,7 +33,7 @@ public class OrderDaoMock {
         }));
     }
 
-    public void createOrder(OrderRequestDTO orderRequest) {
+    public boolean createOrder(OrderRequestDTO orderRequest) {
         OrderDTO order = new OrderDTO(
             count++,
             orderRequest.trailerId,
@@ -43,7 +43,7 @@ public class OrderDaoMock {
             orderRequest.endTime
         );
 
-        this.orders.add(order);
+        return this.orders.add(order);
     }
 
 }

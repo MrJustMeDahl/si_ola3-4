@@ -31,7 +31,11 @@ public class OrderHandler {
             throw new APIException(410, "Not available!");
         }
 
-        dao.createOrder(orderRequest);
+        if (dao.createOrder(orderRequest)) {
+            // TODO: Publish bill information to rabbitmq
+
+            
+        }
 
 
         ctx.status(201);
