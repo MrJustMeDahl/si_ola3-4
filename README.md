@@ -178,9 +178,165 @@ GET http://localhost:7000/api/locations
 
 Result:
 
+Status code: 200 OK
+
+json:
+
+```
+[
+    {
+        "id": 1,
+        "name": "Location 1",
+        "address": "Address 1",
+        "trailers": [
+            {
+                "id": 2,
+                "available": false
+            },
+            {
+                "id": 3,
+                "available": true
+            },
+            {
+                "id": 1,
+                "available": true
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Location 2",
+        "address": "Address 2",
+        "trailers": [
+            {
+                "id": 6,
+                "available": true
+            },
+            {
+                "id": 5,
+                "available": false
+            },
+            {
+                "id": 4,
+                "available": true
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Location 3",
+        "address": "Address 3",
+        "trailers": [
+            {
+                "id": 9,
+                "available": true
+            },
+            {
+                "id": 7,
+                "available": true
+            },
+            {
+                "id": 8,
+                "available": false
+            }
+        ]
+    }
+]
+```
+
+#### Step 2 - Get available trailers on location
+
+Request:
+
+```
+GET http://localhost:7000/api/locations/1
+```
+
+Result:
+
+Status code: 200 OK
+
+json:
+
+```
+[
+    {
+        "id": 3,
+        "available": true
+    },
+    {
+        "id": 1,
+        "available": true
+    }
+]
+```
+
+#### Step 3 - 5 - Create order
+
+Request:
+
+```
+POST http://localhost:7000/api/createorder  
+Content-Type: application/json
+
+{
+  "trailerId": 1,
+  "userId": "Pelle",
+  "startTime": "2025-10-03T10:00:00Z",
+  "endTime": "2025-10-03T11:00:00Z",
+  "insurance": true
+}
+```
+
+Result:
+
+Status code: 201 Created
+
+response body (order number):
+
+```
+1
+```
+
+Console log from billing:
+
+```
+ [x] Received 'rental.order.create':'org.soft2.DTO.BillDTO@1f0f87ce'
+Bill added: 1
+Current bills: [1]
+Creating bill...
+CONSUMER: Bill has been sent to the payment system for order: 1, with insurance. amount: 50
+```
+
+#### Step  6 - 8 - Return trailer
+
+Request:
+
+```
+POST localhost:7000/api/returnTrailer/1
+Content-Type: application/json
+```
+
+Result:
+
+Status code: 200 OK
+
+Response body:
+
+```
+Late fees added to charge!
+```
+
+Console log from billing:
+
+```
+ [x] Received 'rental.return.trailer':'{"orderId":1,"lateReturn":true}'
+CONSUMER DAO: Late return charge added to bill: 1
+CONSUMER: Late return charge has been sent to the payment system for order: 1, amount: 50
+```
+
 
 
 ### Conclusion of implementation process
 We successfully implemented a prototype of the system designed in OLA 3 using the bounded contexts and architecture described. The rental service is the main entry point for the system, exposing a REST API for users to interact with. The billing service is responsible for handling invoices and payments, and is only interacted with when a rental is created or completed.
 The communication between the rental and billing services is done using RabbitMQ as the message broker, using the publish-subscribe pattern. This approach allows for loose coupling between the services, making it easier to maintain and scale the system in the future.
-
