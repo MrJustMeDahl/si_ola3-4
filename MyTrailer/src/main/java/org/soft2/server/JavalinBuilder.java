@@ -35,9 +35,7 @@ public class JavalinBuilder {
                     path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
                     });
-                    path("/createBill", () -> {
-                        post(MessageHandler::createBill);
-                    });
+
                     path("/returnTrailer", ()->{
                         post(ReturnHandler::returnTrailer);
                     });

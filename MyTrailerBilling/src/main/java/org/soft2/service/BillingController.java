@@ -6,11 +6,10 @@ import org.soft2.mockDAO.BillDAO;
 public class BillingController {
 
     // Receives a message from rabbitmq and creates a bill
-    public void createBill(OrderDTO orderDTO) {
+    public void createBill(BillDTO billDTO) {
 
         try {
 
-            BillDTO billDTO = new BillDTO(orderDTO);
 
             BillDAO billDAO = BillDAO.getInstance();
 

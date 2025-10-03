@@ -1,11 +1,13 @@
 package org.soft2.DTO;
 
-import java.sql.Timestamp;
+
+import java.time.LocalDateTime;
 
 public class OrderDTO {
     private String orderId;
     private String trailerId;
-    private Timestamp startTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String userId;
     private boolean insurance;
 
@@ -13,10 +15,19 @@ public class OrderDTO {
 
     public OrderDTO() {
     }
-    public OrderDTO(String orderId, boolean insurance, Timestamp startTime) {
+    public OrderDTO(String orderId, boolean insurance, LocalDateTime startTime) {
         this.orderId = orderId;
         this.insurance = insurance;
         this.startTime = startTime;
+    }
+
+    public OrderDTO(String orderId, String trailerId, LocalDateTime startTime, LocalDateTime endTime, String userId, boolean insurance) {
+        this.orderId = orderId;
+        this.trailerId = trailerId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.userId = userId;
+        this.insurance = insurance;
     }
 
     public String getOrderId() {
@@ -35,11 +46,19 @@ public class OrderDTO {
         this.trailerId = trailerId;
     }
 
-    public Timestamp getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 

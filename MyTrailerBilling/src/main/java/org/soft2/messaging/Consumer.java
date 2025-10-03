@@ -1,9 +1,11 @@
 package org.soft2.messaging;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import org.soft2.DTO.BillDTO;
 import org.soft2.service.BillingController;
 import org.soft2.DTO.OrderDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +15,7 @@ import java.util.Map;
 
 public class Consumer {
     private static final ObjectMapper objectMapper = new ObjectMapper();
+
 
 
     private static final String EXCHANGE_NAME = "rental";
@@ -36,13 +39,15 @@ public class Consumer {
     private static DeliverCallback deliverCallback(){
         return (consumerTag, delivery) -> {
             if(delivery.getEnvelope().getRoutingKey().equals("rental.order.create")) {
-                OrderDTO orderDTO = objectMapper.readValue(delivery.getBody(), OrderDTO.class);
+                objectMapper.registerModule(new JavaTimeModule());
+                BillDTO bill = objectMapper.readValue(delivery.getBody(), BillDTO.class);
+                //OrderDTO orderDTO = objectMapper.readValue(delivery.getBody(), OrderDTO.class);
                 System.out.println(" [x] Received '" +
-                        delivery.getEnvelope().getRoutingKey() + "':'" + orderDTO + "'");
+                        delivery.getEnvelope().getRoutingKey() + "':'" + bill + "'");
 
                 BillingController billingController = new BillingController();
 
-                billingController.createBill(orderDTO);
+                billingController.createBill(bill);
 
             }
             else if(delivery.getEnvelope().getRoutingKey().equals("rental.return.trailer")){

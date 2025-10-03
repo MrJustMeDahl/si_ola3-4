@@ -1,18 +1,21 @@
 package org.soft2.DTO;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class BillDTO {
     private String orderId;
     private boolean insurance;
-    private Timestamp timestamp;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private float amount;
     private boolean lateReturnCharge;
 
-    public BillDTO(String orderId, boolean insurance, Timestamp timestamp) {
+    public BillDTO(String orderId, boolean insurance, LocalDateTime startTime, LocalDateTime endTime) {
         this.orderId = orderId;
         this.insurance = insurance;
-        this.timestamp = timestamp;
+        this.startTime = startTime;
+        this.endTime = endTime;
         if (insurance) {
             this.amount += 50;
         }
@@ -21,10 +24,14 @@ public class BillDTO {
     public BillDTO(OrderDTO orderDTO){
         this.orderId = orderDTO.getOrderId();
         this.insurance = orderDTO.isInsurance();
-        this.timestamp = orderDTO.getStartTime();
+        this.startTime = orderDTO.getStartTime();
+        this.endTime = orderDTO.getEndTime();
         if (insurance) {
             this.amount += 50;
         }
+    }
+    public BillDTO(){
+
     }
 
     public String getOrderId() {
@@ -43,12 +50,20 @@ public class BillDTO {
         this.insurance = insurance;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public float getAmount() {

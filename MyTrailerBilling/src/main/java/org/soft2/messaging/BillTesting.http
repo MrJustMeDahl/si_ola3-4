@@ -1,11 +1,11 @@
-POST localhost:7000/api/createBill
+POST localhost:7000/api/createorder
 Content-Type: application/json
 
 {
-  "orderId": 12345,
-  "trailerId": "TR2",
-  "startTime": "2024-06-01T10:00:00Z",
-  "userId": "user2",
+  "trailerId": 1,
+  "userId": "Pelle",
+  "startTime": "2025-06-01T10:00:00Z",
+  "endTime": "2025-06-01T12:00:00Z",
   "insurance": true
 }
 
