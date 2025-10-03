@@ -3,7 +3,6 @@ package org.soft2.server;
 import org.soft2.exceptions.APIException;
 import org.soft2.exceptions.ExceptionHandler;
 import org.soft2.handlers.LocationController;
-import org.soft2.handlers.MessageHandler;
 import org.soft2.handlers.OrderHandler;
 import org.soft2.handlers.ReturnHandler;
 import org.soft2.mockDAO.OrderDaoMock;
@@ -32,17 +31,13 @@ public class JavalinBuilder {
                     get("/", (ctx) -> ctx.status(418)); // Visit me in the browser ;)
                     post("/createorder", orderHandler::handleOrderCreation);
 
-                    path("/TODO_INSERT_MORE_OF_OUR_OWN_PATHS_AND_ROUTES", () -> {
 
-                    });
 
                     path("/returnTrailer", ()->{
                         post(ReturnHandler::returnTrailer);
                     });
 
-                    path("sendTestMessage", () -> {
-                        post(MessageHandler::sendTestMessage);
-                    });
+
                     
                 });
             });
