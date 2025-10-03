@@ -136,6 +136,11 @@ Base URL for Rental service: `http://localhost:7000/api`
 | POST   | /createorder            | Creates booking for a specific trailer at a specific time |
 | POST   | /returnTrailer          | Notify that a trailer has been returned, and an order therefore can be closed |
 
+### API Exception handling
+We implemented a custom API exception aimed at providing easy to understand error messages to the user. It can be used anywhere within the API as long as the exception is being thrown upwards - bubbling up through the system until it reaches the exception handler and generates a response.
+
+On another note the business policies are being enforced via the implementation of a validatorExceptionHandler that aggregates several invalid inputs into one exception, which is then thrown upwards to the exception handler. This way the user can get all the invalid inputs in one go, instead of having to fix them one by one.
+
 ### Communication between rental and billing service
 The communication between the rental and billing service is done using RabbitMQ as the message broker. We chose to use the publish-subscribe pattern, having the rental service being the producer, publishing messages to the billing service that is then consuming the messages by being subscribed to certain queues. 
 
