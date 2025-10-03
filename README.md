@@ -156,6 +156,30 @@ The messages are then being consumed by the billing service, which then handles 
 - MVC pattern - for the rental context. Separating the concerns of the application into models, views and controllers. Keep in mind that for the prototype here the view has not been implemented.
 - Ports and Adapters pattern - for the billing context. Separating the core domain logic from the infrastructure and external services.
 
+### End-2-End flow
+
+The flow would be defined as follows:
+1. The locations are retrieved.
+2. The user selects a location and retrieves all available trailers on that location.
+3. The user selects a trailer and creates an order for a specific time period, optionally adding insurance.
+4. The rental service publishes a message to the billing service containing order details.
+5. Billing service handles invoice creation and payment if insurance was added.
+6. The user returns the trailer.
+7. The rental service publishes a message to the billing service containing order details.
+8. Billing service adds any excess fees to the invoice and handles payment if needed.
+
+#### Step 1 - Get locations
+
+Request:
+
+```
+GET http://localhost:7000/api/locations
+```
+
+Result:
+
+
+
 ### Conclusion of implementation process
 We successfully implemented a prototype of the system designed in OLA 3 using the bounded contexts and architecture described. The rental service is the main entry point for the system, exposing a REST API for users to interact with. The billing service is responsible for handling invoices and payments, and is only interacted with when a rental is created or completed.
 The communication between the rental and billing services is done using RabbitMQ as the message broker, using the publish-subscribe pattern. This approach allows for loose coupling between the services, making it easier to maintain and scale the system in the future.
