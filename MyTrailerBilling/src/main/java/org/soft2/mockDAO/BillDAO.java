@@ -18,7 +18,7 @@ public class BillDAO {
         return instance;
     }
 
-    public static Map<String, BillDTO> bills = new HashMap<>();
+    public static Map<Integer, BillDTO> bills = new HashMap<>();
 
 
     public BillDTO addBill(BillDTO bill) {
@@ -31,11 +31,11 @@ public class BillDAO {
     public BillDTO getBill(String orderId) {
         return bills.get(orderId);
     }
-    public Map<String, BillDTO> getAllBills() {
+    public Map<Integer, BillDTO> getAllBills() {
         return bills;
     }
 
-    public BillDTO lateReturnCharge(String orderId){
+    public BillDTO lateReturnCharge(int orderId){
         BillDTO bill = bills.get(orderId);
         if (bill != null) {
             bill.setLateReturnCharge(true);

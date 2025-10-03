@@ -44,6 +44,8 @@ public class OrderHandler {
             try {
                 String message = mapper.writeValueAsString(bill);
                 Producer.publishMessage("rental.order.create", message);
+                // Send orderid in context
+                ctx.json(order.orderId);
                 ctx.status(201);
             } catch (JsonProcessingException e) {
                 throw new APIException(500, "Failed Serializing Bill: " + bill.toString() + ": " + e.getMessage());

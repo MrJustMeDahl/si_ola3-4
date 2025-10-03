@@ -15,7 +15,7 @@ import io.javalin.validation.ValidationException;
 
 public class JavalinBuilder {
 
-    private static final OrderHandler orderHandler = new OrderHandler(new OrderDaoMock());
+    private static final OrderHandler orderHandler = new OrderHandler(OrderDaoMock.getInstance());
 
     public static void startServer(int port) {
         Javalin.create(config -> {
@@ -33,7 +33,7 @@ public class JavalinBuilder {
 
 
 
-                    path("/returnTrailer", ()->{
+                    path("/returnTrailer/{orderId}", ()->{
                         post(ReturnHandler::returnTrailer);
                     });
 

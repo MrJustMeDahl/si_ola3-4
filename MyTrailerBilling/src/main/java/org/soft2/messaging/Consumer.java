@@ -56,12 +56,16 @@ public class Consumer {
                         delivery.getEnvelope().getRoutingKey() + "':'" + new String(delivery.getBody(), "UTF-8") + "'");
                 String body = new String(delivery.getBody(), "UTF-8");
                 Map<String, Object> payload = objectMapper.readValue(body, Map.class);
-                String orderId = (String) payload.get("orderId");
+                int orderId = (int)payload.get("orderId");
                 boolean lateReturn = (boolean) payload.get("lateReturn");
+
 
                 if(lateReturn){
                     BillingController billingController = new BillingController();
                     billingController.lateReturnCharge(orderId);
+                }
+                else {
+                    System.out.println("Trailer returned on time. No extra charge.");
                 }
 
 

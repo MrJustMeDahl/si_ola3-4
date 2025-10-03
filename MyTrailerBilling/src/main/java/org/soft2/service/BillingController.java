@@ -26,7 +26,7 @@ public class BillingController {
             e.printStackTrace();
         }
     }
-    public void lateReturnCharge(String orderId){
+    public void lateReturnCharge(int orderId){
         BillDAO billDAO = BillDAO.getInstance();
         BillDTO bill = billDAO.lateReturnCharge(orderId);
         if (bill != null) {
