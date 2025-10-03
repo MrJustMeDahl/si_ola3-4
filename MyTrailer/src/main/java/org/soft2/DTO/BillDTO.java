@@ -16,7 +16,6 @@ public class BillDTO {
     public BillDTO() {
     }
 
-    // TODO: constructor + From request etc
     public BillDTO(int orderId, boolean insurance, LocalDateTime startTime, LocalDateTime endTime) {
         this.orderId = orderId;
         this.insurance = insurance;

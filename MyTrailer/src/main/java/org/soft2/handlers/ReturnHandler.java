@@ -1,16 +1,17 @@
 package org.soft2.handlers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.javalin.http.Context;
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Objects;
+
 import org.soft2.DTO.OrderDTO;
 import org.soft2.exceptions.APIException;
 import org.soft2.messaging.Producer;
 import org.soft2.mockDAO.OrderDaoMock;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Objects;
+import io.javalin.http.Context;
 
 public class ReturnHandler {
     public static final ObjectMapper objectMapper = new ObjectMapper();
@@ -28,7 +29,8 @@ public class ReturnHandler {
             boolean result = Producer.publishMessage("rental.return.trailer", jsonMessage);
 
             if (result) {
-                context.json("Trailer returner succesfully sent a message");
+                context.json("Trailer returner succesfully");
+                if (lateReturn) context.json("Late fees added to charge!");
                 context.status(200);
             }
         }
