@@ -91,4 +91,72 @@ Within the billing context, we have the following components:
 
 ## Conclusion of modeling process
 
-Through the event storming session, we were able to gain a better understanding of the business domain and its requirements. We identified the core domain and bounded contexts, and created domain model diagrams and glossaries for each context. We also created C4 diagrams to illustrate the system's architecture at various levels. This approach gave us a top down exploration of the system and its requirements, providing us a better foundation for making the right architectural decisions.
+Through the event storming session, we were able to gain a better understanding of the business domain and its requirements. We identified the core domain and bounded contexts, and created domain model diagrams and glossaries for each context. We also created C4 diagrams to illustrate the system's architecture at various levels. This approach gave us a top down exploration of the system and its requirements, providing us a better foundation for making the right architectural decisions. 
+
+Most of the decisions made during the modeling process were strategic decisions, as we were working on a high level. However, some tactical decisions were also made, such as the choice of using RabbitMQ as the message broker and the publish-subscribe pattern for communication between the rental and billing contexts.
+
+## Objective of assignment (OLA 4): 
+
+Using the bounded contexts designed in OLA 3, we are to implement the system described in the modeling process. We are to prepare documentation showing how we built the system, including patterns used. The implementation needs to have a working prototype.
+
+## Implementation
+
+Implementation is based on the architecture designed in OLA 3, with 2 bounded contexts acting as separate services. The rental service is the main entry point for the system, exposing a REST API for users to interact with.
+
+The full implementation can be found on the [GitHub repository](https://github.com/MrJustMeDahl/si_ola3-4)
+
+### Technologies used
+- Java 21
+- Javalin 6.7.0
+- Maven
+- RabbitMQ 4.1.4
+- Docker
+
+### To run the system
+1. Clone the repository
+2. Make sure you have Docker installed and running
+3. Open a terminal and navigate to the root of the project
+4. Run the following command to start RabbitMQ:
+   ```
+   docker compose up -d
+   ```
+5. Execute the 2 main classes to start the services:
+   - MyTrailer/src/main/java/org/soft2/server/Main.java
+   - MyTrailerBilling/src/main/java/org/soft2/Main.java
+
+6. Now the API is ready to receive requests, and send messages between the services when required.
+
+### API Endpoints
+Base URL for Rental service: `http://localhost:7000/api`
+
+| Method | Endpoint                | Description                                           |
+|--------|-------------------------|-------------------------------------------------------|
+| GET    | /locations              | Get all locations                                     |
+| GET    | /locations/{locationId} | Get all available trailers on location                |
+| POST   | /createorder            | Creates booking for a specific trailer at a specific time |
+| POST   | /returnTrailer          | Notify that a trailer has been returned, and an order therefore can be closed |
+
+### Communication between rental and billing service
+The communication between the rental and billing service is done using RabbitMQ as the message broker. We chose to use the publish-subscribe pattern, having the rental service being the producer, publishing messages to the billing service that is then consuming the messages by being subscribed to certain queues. 
+
+We ended up using the topic exchange type, as it gives us the most flexibility in terms of routing messages to specific queues, even though it is probably slightly overkill for the current use case. The reasoning for choosing this approach was mainly bound on the fact that we wanted to be able to easily create new binds between the exchange and queues, if we were to add more functionality to the system in the future.
+
+In our current state 2 types of events are being published from the rental service:
+1. rental.order.create - published when a new order is created, containing information about the order. This event creates a new invoice in the billing service and handles payment in case insurance was added. [source code can be found here](MyTrailer/src/main/java/org/soft2/handlers/OrderHandler.java)
+2. rental.return.trailer - published when a trailer is returned, containing information about the order. This event updates the invoice in the billing service to mark it as completed, as well as handles payment for any excess fees. [source code can be found here](MyTrailer/src/main/java/org/soft2/handlers/ReturnHandler.java)
+
+The messages are then being consumed by the billing service, which then handles the events accordingly based on the routing keys. [source code can be found here](MyTrailerBilling/src/main/java/org/soft2/messaging/Consumer.java)
+
+### Patterns used
+- Publish-Subscribe pattern - for messaging between the rental and billing services.
+- Facade pattern - is a future implementation to decouple the billing context from the external payment service.
+- DAO pattern - for data access and manipulation in both services.
+- DTO pattern - for data transfer between layers in both services.
+- Singleton pattern - for database connection (only implemented for the order DAO so far).
+- MVC pattern - for the rental context. Separating the concerns of the application into models, views and controllers. Keep in mind that for the prototype here the view has not been implemented.
+- Ports and Adapters pattern - for the billing context. Separating the core domain logic from the infrastructure and external services.
+
+### Conclusion of implementation process
+We successfully implemented a prototype of the system designed in OLA 3 using the bounded contexts and architecture described. The rental service is the main entry point for the system, exposing a REST API for users to interact with. The billing service is responsible for handling invoices and payments, and is only interacted with when a rental is created or completed.
+The communication between the rental and billing services is done using RabbitMQ as the message broker, using the publish-subscribe pattern. This approach allows for loose coupling between the services, making it easier to maintain and scale the system in the future.
+
