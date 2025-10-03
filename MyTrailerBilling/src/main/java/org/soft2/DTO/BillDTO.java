@@ -4,14 +4,14 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class BillDTO {
-    private String orderId;
+    private int orderId;
     private boolean insurance;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private float amount;
     private boolean lateReturnCharge;
 
-    public BillDTO(String orderId, boolean insurance, LocalDateTime startTime, LocalDateTime endTime) {
+    public BillDTO(int orderId, boolean insurance, LocalDateTime startTime, LocalDateTime endTime) {
         this.orderId = orderId;
         this.insurance = insurance;
         this.startTime = startTime;
@@ -21,24 +21,16 @@ public class BillDTO {
         }
     }
 
-    public BillDTO(OrderDTO orderDTO){
-        this.orderId = orderDTO.getOrderId();
-        this.insurance = orderDTO.isInsurance();
-        this.startTime = orderDTO.getStartTime();
-        this.endTime = orderDTO.getEndTime();
-        if (insurance) {
-            this.amount += 50;
-        }
-    }
+
     public BillDTO(){
 
     }
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 

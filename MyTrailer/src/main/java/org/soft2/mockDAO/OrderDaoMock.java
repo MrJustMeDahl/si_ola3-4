@@ -17,10 +17,18 @@ import org.soft2.DTO.OrderRequestDTO;
 
 public class OrderDaoMock {
 
+
     private final List<OrderDTO> orders;
     private int count;
 
-    public OrderDaoMock() {
+    private static OrderDaoMock instance = null;
+    public static OrderDaoMock getInstance() {
+        if (instance == null) {
+            instance = new OrderDaoMock();
+        }
+        return instance;
+    }
+    private OrderDaoMock() {
         this.orders = new ArrayList<>();
         this.count = 1;
     }
@@ -46,6 +54,13 @@ public class OrderDaoMock {
         if (this.orders.add(order)) return order;
 
         return null; // Exception?
+    }
+
+    public OrderDTO findOrder(int orderId){
+        for (OrderDTO order : orders) {
+            if (orderId == order.orderId) return order;
+        }
+        return null;
     }
 
 }
